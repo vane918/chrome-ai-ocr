@@ -1,0 +1,282 @@
+/* ===== 选区遮罩 ===== */
+#ocr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  cursor: crosshair;
+  user-select: none;
+}
+
+#ocr-overlay-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+#ocr-selection {
+  position: absolute;
+  border: 2px solid #6366f1;
+  background: transparent;
+  box-shadow:
+    0 0 0 9999px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+  pointer-events: none;
+}
+
+#ocr-selection-hint {
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  background: #6366f1;
+  color: white;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+#ocr-initial-hint {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 12px 24px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 2147483647;
+  white-space: nowrap;
+}
+
+/* ===== 结果浮层 ===== */
+#ocr-result-panel {
+  position: fixed;
+  z-index: 2147483647;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  background: white;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 20px 50px -10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #1f2937;
+  animation: ocr-panel-in 0.2s ease-out;
+}
+
+@keyframes ocr-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+#ocr-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+#ocr-result-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#ocr-result-title svg {
+  width: 18px;
+  height: 18px;
+  color: #6366f1;
+}
+
+#ocr-result-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ocr-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ocr-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ocr-btn-copy {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.ocr-btn-copy:hover {
+  background: #e0e7ff;
+}
+
+.ocr-btn-copy.copied {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.ocr-btn-close {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 5px;
+}
+
+.ocr-btn-close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+#ocr-result-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* 加载状态 */
+#ocr-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.ocr-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: ocr-spin 0.8s linear infinite;
+}
+
+@keyframes ocr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+#ocr-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+}
+
+#ocr-error svg {
+  width: 32px;
+  height: 32px;
+  color: #fca5a5;
+}
+
+#ocr-error-message {
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* 文字内容 */
+#ocr-text-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1f2937;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Markdown 基础样式 */
+#ocr-text-content strong {
+  font-weight: 600;
+}
+
+#ocr-text-content em {
+  font-style: italic;
+}
+
+#ocr-text-content code {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 12px;
+  background: #f3f4f6;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #374151;
+}
+
+#ocr-text-content pre {
+  background: #1f2937;
+  color: #e5e7eb;
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+#ocr-text-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+#ocr-text-content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  margin: 8px 0;
+}
+
+#ocr-text-content th,
+#ocr-text-content td {
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+#ocr-text-content th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+#ocr-text-content tr:nth-child(even) {
+  background: #f9fafb;
+}

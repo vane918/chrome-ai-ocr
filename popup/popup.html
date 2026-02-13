@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chrome OCR</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#6366f1"/>
+          <text x="16" y="22" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Helvetica, Arial, sans-serif">T</text>
+        </svg>
+        <span class="title">Chrome OCR</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- 未配置 API Key 时显示 -->
+      <div id="notConfigured" class="state-card warning" style="display: none;">
+        <svg class="state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <p>请先配置 Gemini API Key</p>
+        <button id="goToOptions" class="btn-secondary">前往设置</button>
+      </div>
+
+      <!-- 已配置时显示 -->
+      <div id="configured" class="state-card" style="display: none;">
+        <div class="api-status">
+          <svg class="status-icon success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>API 已配置</span>
+          <span id="modelBadge" class="badge"></span>
+        </div>
+
+        <button id="startCapture" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          开始截图识别
+        </button>
+
+        <p class="tip">点击后在页面拖拽选取文字区域</p>
+      </div>
+    </main>
+
+    <footer>
+      <button id="openOptions" class="link-btn">设置</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

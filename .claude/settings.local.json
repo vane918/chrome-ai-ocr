@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:api-docs.deepseek.com)",
+      "WebFetch(domain:developer.chrome.com)",
+      "WebFetch(domain:www.byteplus.com)",
+      "Bash(node -e:*)",
+      "Bash(python3:*)"
+    ]
+  }
+}

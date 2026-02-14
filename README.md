@@ -1,13 +1,13 @@
 # Chrome OCR
 
-基于 Google Gemini AI 的 Chrome 浏览器 OCR 插件。框选网页任意区域，自动识别并提取其中的文字。
+基于 AI 的 Chrome 浏览器 OCR 插件，支持 Google Gemini 和通义千问（阿里云百炼）两大服务商。框选网页任意区域，自动识别并提取其中的文字。
 
 ## 功能特性
 
 - **框选识别**：在网页上拖拽选取任意矩形区域
-- **AI 驱动**：使用 Google Gemini 多模态模型进行文字识别
+- **双服务商支持**：可选 Google Gemini 或通义千问（qwen-vl-ocr），按需切换
 - **格式保留**：自动识别表格（输出为 Markdown 表格）、代码块、段落结构
-- **多模型支持**：可选 gemini-2.5-flash / gemini-2.5-pro 等多个模型
+- **多模型可选**：Gemini 和 Qwen 各提供多个模型版本
 - **自定义提示词**：支持修改 OCR 提示词，适配不同识别场景
 - **高 DPI 适配**：Retina 屏幕下截图精度无损
 
@@ -64,12 +64,22 @@
 
 ## 配置
 
-首次使用需要配置 Gemini API Key：
+插件支持两个 AI 服务商，根据网络环境和偏好选择其一即可。
+
+### Google Gemini（境外网络）
 
 1. 访问 [Google AI Studio](https://aistudio.google.com/app/apikey) 获取免费 API Key
-2. 点击浏览器工具栏中的插件图标
-3. 点击**前往设置**（或点击底部的"设置"链接）
-4. 在 **Gemini API Key** 输入框中填入你的 Key（格式为 `AIza...`）
+2. 点击浏览器工具栏中的插件图标，进入**设置**
+3. 服务商选择 **Google Gemini**
+4. 在 **Gemini API Key** 输入框中填入 Key（格式为 `AIza...`）
+5. 点击**保存设置**
+
+### 通义千问（国内网络可直连）
+
+1. 访问 [阿里云百炼控制台](https://bailian.console.aliyun.com/) 获取 DashScope API Key
+2. 点击浏览器工具栏中的插件图标，进入**设置**
+3. 服务商选择**通义千问（阿里云百炼）**
+4. 在 **DashScope API Key** 输入框中填入 Key（格式为 `sk-...`）
 5. 点击**保存设置**
 
 ## 使用方法
@@ -86,15 +96,16 @@
 
 ## 设置选项
 
-进入插件设置页可配置以下选项：
-
 | 选项 | 说明 |
 |------|------|
-| Gemini API Key | 用于调用 Gemini API 的密钥，格式为 `AIza...` |
-| 识别模型 | 选择用于识别的 Gemini 模型 |
+| AI 服务提供商 | 选择 Google Gemini 或通义千问 |
+| API Key | 对应服务商的密钥 |
+| 识别模型 | 当前服务商下可选的模型版本 |
 | OCR 提示词 | 自定义发送给模型的识别指令 |
 
 ### 模型对比
+
+**Google Gemini**
 
 | 模型 | 速度 | 精度 | 推荐场景 |
 |------|------|------|----------|
@@ -103,6 +114,13 @@
 | gemini-2.0-flash | 快 | 高 | 备选方案 |
 | gemini-1.5-flash | 快 | 良好 | 低延迟场景 |
 | gemini-1.5-pro | 较慢 | 良好 | 旧版模型兼容 |
+
+**通义千问**
+
+| 模型 | 说明 | 推荐场景 |
+|------|------|----------|
+| qwen-vl-ocr-latest | 最新版，持续更新 | 国内网络，日常使用（默认推荐） |
+| qwen-vl-ocr | 稳定版 | 需要固定模型版本的场景 |
 
 ### 自定义提示词
 
@@ -122,10 +140,11 @@
 | `storage` | 保存 API Key、模型、提示词配置 |
 | `scripting` | 向页面注入选区 UI 和结果面板 |
 | `https://generativelanguage.googleapis.com/*` | 访问 Gemini API |
+| `https://dashscope.aliyuncs.com/*` | 访问通义千问 API |
 
 ## 注意事项
 
 - API Key 仅存储在本地 Chrome 同步存储中，不会上传到第三方服务器
-- 截图内容会以 base64 格式发送至 Google Gemini API，请避免对含有敏感信息的内容使用
+- 截图内容会以 base64 格式发送至所选 AI 服务的 API，请避免对含有敏感信息的内容使用
 - 每次识别请求有 30 秒超时限制
-- 需要科学上网环境才能访问 Gemini API（中国大陆地区）
+- Gemini API 需要科学上网环境（中国大陆地区）；通义千问 API 国内可直连

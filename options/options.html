@@ -23,6 +23,15 @@
         <h2>API 配置</h2>
 
         <div class="form-group">
+          <label for="provider">AI 服务提供商</label>
+          <select id="provider">
+            <option value="gemini">Google Gemini</option>
+            <option value="qwen">通义千问（阿里云百炼）</option>
+          </select>
+        </div>
+
+        <!-- Gemini API Key -->
+        <div class="form-group" id="geminiKeyGroup">
           <label for="apiKey">Gemini API Key</label>
           <div class="input-wrapper">
             <input
@@ -44,14 +53,33 @@
           </p>
         </div>
 
+        <!-- 通义千问 API Key -->
+        <div class="form-group" id="qwenKeyGroup" style="display:none">
+          <label for="qwenApiKey">DashScope API Key</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="qwenApiKey"
+              placeholder="请输入您的 DashScope API Key（sk-...）"
+              autocomplete="off"
+              spellcheck="false"
+            >
+            <button type="button" id="toggleQwenApiKey" class="toggle-btn" title="显示/隐藏 API Key">
+              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <p class="hint">
+            前往 <a href="https://bailian.console.aliyun.com/" target="_blank">阿里云百炼控制台</a> 获取 API Key
+          </p>
+        </div>
+
         <div class="form-group">
           <label for="model">识别模型</label>
           <select id="model">
-            <option value="gemini-2.5-flash">gemini-2.5-flash（推荐，速度最快）</option>
-            <option value="gemini-2.5-pro">gemini-2.5-pro（精度更高）</option>
-            <option value="gemini-2.0-flash">gemini-2.0-flash</option>
-            <option value="gemini-1.5-flash">gemini-1.5-flash</option>
-            <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+            <!-- 由 JS 动态填充 -->
           </select>
         </div>
 

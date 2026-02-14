@@ -6,7 +6,9 @@
       "WebFetch(domain:developer.chrome.com)",
       "WebFetch(domain:www.byteplus.com)",
       "Bash(node -e:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "WebFetch(domain:bailian.console.aliyun.com)",
+      "WebFetch(domain:help.aliyun.com)"
     ]
   }
 }

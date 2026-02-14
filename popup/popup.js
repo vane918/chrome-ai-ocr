@@ -4,15 +4,19 @@ function initPopup() {
 }
 
 function checkConfiguration() {
-  chrome.storage.sync.get(['apiKey', 'model'], (result) => {
+  chrome.storage.sync.get(['apiKey', 'qwenApiKey', 'provider', 'model'], (result) => {
     const notConfigured = document.getElementById('notConfigured');
     const configured = document.getElementById('configured');
     const modelBadge = document.getElementById('modelBadge');
 
-    if (result.apiKey) {
+    const provider = result.provider || 'gemini';
+    const hasKey = provider === 'qwen' ? !!result.qwenApiKey : !!result.apiKey;
+    const defaultModel = provider === 'qwen' ? 'qwen-vl-ocr-latest' : 'gemini-2.5-flash';
+
+    if (hasKey) {
       notConfigured.style.display = 'none';
       configured.style.display = 'flex';
-      modelBadge.textContent = result.model || 'gemini-2.5-flash';
+      modelBadge.textContent = result.model || defaultModel;
     } else {
       notConfigured.style.display = 'flex';
       configured.style.display = 'none';
